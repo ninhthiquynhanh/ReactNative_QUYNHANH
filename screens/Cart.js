@@ -1,9 +1,10 @@
 import React, {useEffect, useState, useContext} from "react";
-import {View, Image, Text, Button, FlatList, StyleSheet} from "react-native";
+import {View, Text, Button, FlatList, StyleSheet,TouchableOpacity} from "react-native";
 import {CartContext} from "../CartContext";
-
+import { Image } from 'react-native';
 export function Cart({navigation}){
-    const {items, getItemsCount, getTotalPrice} = useContext(CartContext);
+    const {items, getItemsCount, getTotalPrice,removeItemFromCart, increaseQuantity,
+		decreaseQuantity, } = useContext(CartContext);
 
     function Totals(){
         let [total, setTotal] = useState(0);
@@ -17,14 +18,36 @@ export function Cart({navigation}){
             </View>
         )
     }
+	function handleRemoveItem(id) {
+		removeItemFromCart(id);
+	  }
 
     function renderItem({item}){
         return(
             <>
                 <View style={styles.cartLine}>
-                    <Image style={styles.image} source={item.product.image} />
-                    <Text style={styles.lineLeft}>{item.product.name} x {item.qty} <Text style={styles.productTotal}>${item.totalPrice}</Text></Text>
+				<Image source={{uri: item.product.image}} style={{width:'10%', height:'50%'}}/>
+				
+                    <Text style={styles.lineLeft}>{item.product.title} x {item.qty} 
+					<Text style={styles.productTotal}>${item.totalPrice}</Text>
+					</Text>
                 </View>
+				<View style={{
+					flexDirection:'row',
+					justifyContent:'space-between'
+					
+				}}>
+				<TouchableOpacity style={{backgroundColor:'brown',height:40,width:80,borderRadius:20}} onPress={() => decreaseQuantity(item.id)}>
+					<Text style={[styles.quantityButton,{alignSelf:'center'}, { fontSize: 28 }]}>-</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={{backgroundColor:'brown',height:40,width:80,borderRadius:20}} onPress={() => increaseQuantity(item.id)}>
+					<Text style={[styles.quantityButton,{alignSelf:'center'}, { fontSize: 28 }]}>+</Text>
+				</TouchableOpacity>
+				</View>
+				<TouchableOpacity onPress={() => handleRemoveItem(item.id)}>
+            <Text style={styles.removeButton}>Giảm</Text>
+			
+          </TouchableOpacity>
             </>
         )
     }

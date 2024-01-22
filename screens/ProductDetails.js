@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import {CartContext} from "../CartContext";
+
 const ProductDetails = ({route}) =>{
     const navigation = useNavigation();
     const handleBack = () => {
@@ -13,58 +14,45 @@ const ProductDetails = ({route}) =>{
     const {addItemToCart} = useContext(CartContext)
 
     function onAddToCart(){
-      addItemToCart(product.id)
+      addItemToCart(item.id)
     }
     const {item} =route.params;
-    const[isModal, setIsModal] = useState(false);
-    const[qty, setQty] = useState('1');
-    const updateQty =(qty:string) =>{
-        let quantity = parseInt(qty) + 1;
-        setQty(quantity.toString())
-    }
+   
     return(
         <View>
             <StatusBar translucent={true} backgroundColor='transparent'/>
             <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-                <Ionicons name="arrow-back" size={24} color="#1e88e5" />
+                <Ionicons name="arrow-back" size={39} color="#000000" />
             </TouchableOpacity>
                 <Image source={{uri: item.image}} style={{width:'100%', height:'80%'}}/>
                 
                 <View style={styles.dess}>
-                    <Text style={{color:'#fff'}}>Tên sản phẩm: {item.name}</Text>
-                    <Text style={{color:'#fff'}}>Giá: {item.price}</Text>
+                    <Text style={{fontSize: 18, color:'#fff'}}>Tên sản phẩm: {item.title}</Text>
+                    <Text style={{fontSize: 20, color:'#fff'}}>Giá: {item.price}</Text>
                 </View>
-                <TouchableOpacity style={styles.btn} onPress={()=>setIsModal(true)}>
-                    <Text style={{textAlign:'center', color:"#fff"}}>Mua ngay</Text>
-                </TouchableOpacity>
-                {isModal?<View style={styles.modal}>
-                    <Text>Chọn số lượng</Text>
-                    <View style={{flexDirection:'row'}}>
-                        <TouchableOpacity style={{width:"25%", backgroundColor:'#e21f6d'}}><Text style={{fontSize:30, color:'#ffff', textAlign:'center'}}>-</Text></TouchableOpacity>
-                        <TextInput style={{borderWidth:1, width:'50%', textAlign:'center'}} keyboardType='numeric' value={qty} onChangeText={(value)=>setQty(value)}/>
-                        <TouchableOpacity style={{width:'25%', backgroundColor:'#e21f6d'}} onPress={()=>{updateQty(qty)}}>
-                            <Text style={{fontSize:30, color:'#ffff', textAlign:'center'}}>+</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity style={{backgroundColor:'#e21f6d', padding:15, borderRadius:30, marginTop:30}} onPress={()=>setIsModal(false)}>
+                
+                <TouchableOpacity style={{backgroundColor:'brown', padding:14, borderRadius:27, marginTop:50, }}>
                     <Button onPress={onAddToCart} title="Add To Cart" />
-                    </TouchableOpacity>
-                    </View>:''}
+                    <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+                <Ionicons name="heart" size={25} color="#A52A2A" />
+            </TouchableOpacity>
+        </TouchableOpacity>
+                    
            </View>
     )
 }
 export default ProductDetails;
 const styles = StyleSheet.create({
     dess:{
-        backgroundColor:'gray',
-        borderTopLeftRadius:30,
-        borderTopRightRadius:30,
+        backgroundColor:'brown',
+        borderTopLeftRadius:36,
+        borderTopRightRadius:36,
         padding:30, 
-        marginTop:80,
+        marginTop:100,
         position:'absolute',
         top:'55%',
         width:'100%',
-        height:'80%',
+        height:'50%',
     },
     backButton: {
         position: 'absolute',

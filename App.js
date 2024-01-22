@@ -1,27 +1,29 @@
 import React from "react";
 import {StyleSheet, View, Text} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Cart } from "./screens/Cart.js";
 import { CartIcon } from "./components/CartIcon.js";
 import { CartProvider } from "./CartContext.js";
 import Product from "./components/Product.js";
 import ProductDetails from "./screens/ProductDetails.js";
+import Login from "./screens/Login.js";
+import Register from"./screens/Register.js"
 
 
-
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 function App(){
   return(
     <CartProvider>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Products" component={Product}  options={({navigation}) => ({title: 'Products', headerRight: () => <CartIcon navigation={navigation} />})} />
+        <Stack.Navigator  initialRouteName="Login">
+          <Stack.Screen name="Product" component={Product}  options={({navigation}) => ({title: 'Products', headerRight: () => <CartIcon navigation={navigation} />})} />
           <Stack.Screen name="ProductDetails" component={ProductDetails}  options={({navigation}) => ({title: 'Products', headerRight: () => <CartIcon navigation={navigation} />})}  />
           <Stack.Screen name="Cart" component={Cart} options={({navigation}) => ({title: 'Products', headerRight: () => <CartIcon navigation={navigation} />})} />
-        
+          <Stack.Screen name ="Login" component={Login}/>
+          <Stack.Screen name="Register" component={Register}/>
         </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>
